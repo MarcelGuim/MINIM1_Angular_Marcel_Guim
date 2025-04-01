@@ -22,6 +22,8 @@ import { FormsModule } from '@angular/forms';
 import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
 import { UP_ARROW } from '@angular/cdk/keycodes';
 import { MatSelectModule } from '@angular/material/select';
+import { ValoracionesService } from '../../services/valoraciones.service';import { IValoraciones } from '../../models/valoraciones.mode';
+
 
 @Component({
   selector: 'app-dashboard-users',
@@ -51,9 +53,11 @@ export class DashboardUsersComponent {
   selectedUsers = new Set<Partial<User>>();
   authService = inject(AuthService);
   calendarService = inject(CalendarsService);
+  valoraciones: IValoraciones[] = [];
+  valoracionesService = inject(ValoracionesService)
   dashboardForm: FormGroup;
   ElementData: User[] = [];
-  displayedColumns: string[] = ['delete','name', '_id', 'age', 'mail', 'isDeleted'];
+  displayedColumns: string[] = ['delete','name', '_id', 'age', 'mail', 'valoraciones', 'isDeleted'];
   dataSource: MatTableDataSource<User>;
   calendarForm: FormGroup;
   isCalendarFormOpen = false;
@@ -334,5 +338,26 @@ export class DashboardUsersComponent {
   extractAppointments(): void {
     this.availableAppointments = this.userCalendars.flatMap(calendar => calendar.appointments);
   }
+
+  getValoraciones(userId: string){
+    this.valoracionesService.getAllValoracionesPaginated(userId, 0, 5).subscribe({
+      next: (data) => {
+        this.valoraciones = data.valoraciones;
+        this.router.navigate(['/valoraciones/userId/'], {
+          state: { valoraciones: this.valoraciones }
+          });
+      },
+      error: (err: any) => {
+        console.error('Error getting valoraciones', err);
+        if (err.status === 404) {
+          alert("User not found");
+        }
+        else {
+          alert("Server error");
+        }
+      },
+    });
+  }
+
 }
 

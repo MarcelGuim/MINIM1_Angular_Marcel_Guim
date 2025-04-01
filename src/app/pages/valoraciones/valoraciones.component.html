@@ -1,0 +1,67 @@
+<div class="container">
+    <h2>🌟 Les teves valoracions</h2>
+
+    <!-- Formulari per afegir una nova valoració -->
+    <div class="nou-valoracio">
+        <h3>✨ Afegir nova valoració</h3>
+        <form (ngSubmit)="afegirValoracio()">
+            <div>
+                <label for="user">Usuari:</label>
+                <input type="text" id="user" [(ngModel)]="novaValoracio.user" name="user" required />
+            </div>
+            <div>
+                <label for="calendar">Calendari:</label>
+                <input type="text" id="calendar" [(ngModel)]="novaValoracio.calendar" name="calendar" required />
+            </div>
+            <div>
+                <label for="valoracion">Valoració:</label>
+                <input type="number" id="valoracion" [(ngModel)]="novaValoracio.valoracion" name="valoracion" min="1" max="5" required />
+            </div>
+            <div>
+                <label for="used">Usada:</label>
+                <input type="checkbox" id="used" [(ngModel)]="novaValoracio.used" name="used" />
+            </div>
+            <button type="submit">📝 Afegir valoració</button>
+        </form>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>👤 Usuari</th>
+          <th>📅 Calendari</th>
+          <th>⭐ Valoració actual</th>
+          <th>⭐ Modifica valoració</th>
+          <th>✅ Usada?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let valoracion of valoraciones">
+          <td>{{ valoracion.user }}</td>
+          <td>{{ valoracion.calendar }}</td>
+          <!-- Mostra la valoració actual -->
+          <td class="text-right">{{ valoracion.valoracion }}</td>
+
+          <!-- Text box per modificar la valoració -->
+          <td class="text-right">
+            <input 
+              type="number" 
+              [(ngModel)]="valoracion.novaValoracio" 
+              min="1" 
+              max="5" 
+              placeholder="Modifica valoració"
+              style="width: 60px; margin-left: 10px;" />
+          </td>
+
+          <td class="text-right">{{ valoracion.used ? 'Sí' : 'No' }}</td>
+          <td>
+            <button (click)="deleteValoracion(valoracion._id)">📝 Esborrar</button>
+          </td>
+          <td>
+            <!-- Botó per guardar la nova valoració -->
+            <button (click)="modificaValoracion(valoracion)">📝 Modificar valoració</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>

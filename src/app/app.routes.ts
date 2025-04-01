@@ -6,6 +6,7 @@ import { MainLayoutComponent } from './layout/main-layout/main-layout.component'
 import { RegisterComponent } from './pages/register/register.component';
 import { DashboardUsersComponent } from './pages/dashboard-users/dashboard-users.component';
 import { DashboardAppointmentsComponent } from './pages/dashboard-appointments/dashboard-appointments.component';
+import { ValoracionesComponent } from './pages/valoraciones/valoraciones.component';
 
 export const routes: Routes = [
   {
@@ -24,5 +25,12 @@ export const routes: Routes = [
       { path: 'appointments', component: DashboardAppointmentsComponent }
     ]
   },
-  { path: '', redirectTo: '/auth/login', pathMatch: 'full' }
+  { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
+  {
+    path: 'valoraciones',
+    component: MainLayoutComponent,
+    children: [
+      { path: ':userId', component: ValoracionesComponent },
+    ]
+  },
 ];
