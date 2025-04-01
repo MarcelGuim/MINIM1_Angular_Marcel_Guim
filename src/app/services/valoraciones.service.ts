@@ -29,7 +29,7 @@ export class ValoracionesService {
     return this.http.get(AuthService.apiUrl + "valoraciones/" + valoracionId);
   }
 
-  updateValoracion(valoracionId: string, valoracion: Partial<IValoraciones>): Observable<any> {
+  updateValoracion(valoracionId: string, valoracion: IValoraciones): Observable<any> {
     return this.http.put(AuthService.apiUrl + "valoraciones/"+valoracionId,valoracion);
   }
 
